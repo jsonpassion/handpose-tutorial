@@ -76,9 +76,9 @@
   var xrayTabs = document.getElementById("xrayTabs");
   var xrayCaption = document.getElementById("xrayCaption");
   var xrayCopy = {
-    photo: "<b>사람의 눈.</b> 하나의 “손”으로 인식합니다. 컴퓨터가 받는 입력은 다릅니다.",
-    pixel: "<b>픽셀.</b> 300×200 이미지는 숫자 60,000개입니다. 이미지 분류는 배경과 조명까지 포함한 전체에서 패턴을 찾습니다.",
-    joint: "<b>관절.</b> Vision이 좌표 42개(21관절 × x·y)만 남깁니다. 포즈 분류는 이 숫자만 학습합니다."
+    photo: "<b>사람의 눈.</b> 하나의 “손”으로 인식한다. 컴퓨터가 받는 입력은 다르다.",
+    pixel: "<b>픽셀.</b> 300×200 이미지는 숫자 60,000개. 이미지 분류는 배경과 조명까지 포함한 전체에서 패턴을 찾는다.",
+    joint: "<b>관절.</b> Vision이 좌표 42개(21관절 × x·y)만 남긴다. 포즈 분류는 이 숫자만 학습한다."
   };
   if (xrayScene && xrayTabs) {
     xrayTabs.addEventListener("click", function (e) {
@@ -95,14 +95,14 @@
   var bgScene = document.getElementById("bgScene");
   var bgData = {
     studio: { pixel: 98, joint: 97,
-      pixelSub: "학습 데이터와 같은 배경 — 확신도가 높습니다.",
-      jointSub: "관절 좌표는 배경과 무관합니다." },
+      pixelSub: "학습 데이터와 같은 배경 — 확신도가 높다.",
+      jointSub: "관절 좌표는 배경과 무관하다." },
     cafe: { pixel: 61, joint: 96,
-      pixelSub: "학습 때 본 적 없는 배경 — 확신도가 떨어집니다.",
-      jointSub: "배경이 바뀌어도 관절 좌표는 그대로입니다." },
+      pixelSub: "학습 때 본 적 없는 배경 — 확신도가 떨어진다.",
+      jointSub: "배경이 바뀌어도 관절 좌표는 그대로다." },
     stage: { pixel: 34, joint: 95,
-      pixelSub: "본 적 없는 조명 — 사실상 추측에 가깝습니다.",
-      jointSub: "관절이 검출되는 한 결과가 유지됩니다." }
+      pixelSub: "본 적 없는 조명 — 사실상 추측에 가깝다.",
+      jointSub: "관절이 검출되는 한 결과가 유지된다." }
   };
   if (bgTabs && bgScene) {
     bgTabs.addEventListener("click", function (e) {
@@ -202,8 +202,8 @@
       });
     });
     setStatus(result.landmarks.length
-      ? "관절 " + result.landmarks.length * 21 + "개 추적 중 — 이 좌표가 모델의 입력입니다"
-      : "손을 카메라에 비춰 주세요");
+      ? "관절 " + result.landmarks.length * 21 + "개 추적 중 — 이 좌표가 모델의 입력이다"
+      : "손을 카메라에 비추면 추적이 시작된다");
   }
 
   function loop() {
@@ -222,11 +222,11 @@
     camStart.disabled = true;
     try {
       if (location.protocol === "file:") {
-        setStatus("웹캠 데모는 file://에서 동작하지 않습니다. 로컬 서버(README 참고)로 열어 주세요.");
+        setStatus("웹캠 데모는 file://에서 동작하지 않는다. 로컬 서버(README 참고)로 열 것.");
         camStart.disabled = false;
         return;
       }
-      setStatus("손 인식 모델을 내려받는 중입니다 (최초 1회, 수 초)");
+      setStatus("손 인식 모델 다운로드 중 (최초 1회, 수 초)");
       var vision = await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm");
       var fileset = await vision.FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
@@ -238,7 +238,7 @@
         runningMode: "VIDEO",
         numHands: 2
       });
-      setStatus("카메라 권한을 허용해 주세요…");
+      setStatus("카메라 권한 허용 대기 중…");
       camState.stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user", width: { ideal: 960 } }, audio: false
       });
@@ -248,13 +248,13 @@
       camStart.hidden = true;
       camStop.hidden = false;
       camState.running = true;
-      setStatus("손을 카메라에 비춰 주세요");
+      setStatus("손을 카메라에 비추면 추적이 시작된다");
       loop();
     } catch (err) {
       if (err && (err.name === "NotAllowedError" || err.name === "PermissionDeniedError")) {
-        setStatus("카메라 권한이 거부되었습니다. 데모 없이도 튜토리얼은 계속 읽을 수 있습니다.");
+        setStatus("카메라 권한이 거부되었다. 데모 없이도 튜토리얼은 계속 읽을 수 있다.");
       } else {
-        setStatus("데모를 시작하지 못했습니다 (네트워크 또는 브라우저 제한). 튜토리얼은 계속 진행할 수 있습니다.");
+        setStatus("데모 시작 실패 (네트워크 또는 브라우저 제한). 튜토리얼은 계속 진행 가능하다.");
       }
       stopCam();
     } finally {
